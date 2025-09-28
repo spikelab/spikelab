@@ -259,6 +259,26 @@
             transform: translateY(-1px);
         }
 
+        /* Particle effect styles */
+        #particle-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #0d0d0d;
+            border-radius: 50%;
+            opacity: 0.7;
+        }
+
         /* Copyright text positioned over curve */
         .copyright-text {
             position: fixed;
@@ -343,6 +363,9 @@
     </style>
 </head>
 <body>
+    <!-- Particle effect container -->
+    <div id="particle-container"></div>
+
     <!-- Curved background shape -->
     <div class="curved-bg"></div>
 
@@ -363,7 +386,7 @@
                 <div class="text-section">
                     
                     <p class="description">
-                        My name is Filippo. I'm an ex-Google engineer with over 20 years of experience in tech, 2x founder and startup mentor turned product leader.
+                        My name is Filippo. I'm an ex-Googler with over 20 years of experience in tech, 2x founder and startup mentor turned product leader.
                     </p>
                     
                     <p class="description">
@@ -395,5 +418,112 @@
 
     <!-- Copyright positioned within the curve -->
     <div class="copyright-text">© 2025 SpikeLab</div>
+
+    <script>
+        class ParticleSystem {
+            constructor() {
+                this.particles = [];
+                this.container = document.getElementById('particle-container');
+                this.maxParticles = 20;
+                this.spawnRate = 0.3; // Probability per frame
+                this.curveY = window.innerHeight * 0.85; // 85% down (curve starts at 15% from bottom)
+
+                this.init();
+            }
+
+            init() {
+                this.animate();
+            }
+
+            createParticle() {
+                const particle = {
+                    element: document.createElement('div'),
+                    x: Math.random() * window.innerWidth,
+                    y: Math.random() * window.innerHeight * 0.6, // Spawn in upper 60%
+                    vx: 0,
+                    vy: 0,
+                    size: Math.random() * 2 + 2, // 2-4px
+                    life: 1.0
+                };
+
+                particle.element.className = 'particle';
+                particle.element.style.width = particle.size + 'px';
+                particle.element.style.height = particle.size + 'px';
+                particle.element.style.left = particle.x + 'px';
+                particle.element.style.top = particle.y + 'px';
+
+                this.container.appendChild(particle.element);
+                this.particles.push(particle);
+            }
+
+            updateParticle(particle) {
+                // Calculate attraction to curve center
+                const centerX = window.innerWidth / 2;
+                const centerY = this.curveY;
+
+                const dx = centerX - particle.x;
+                const dy = centerY - particle.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                // Attraction force (stronger as particle gets closer)
+                const force = Math.min(0.5, 50 / (distance + 10));
+
+                particle.vx += (dx / distance) * force;
+                particle.vy += (dy / distance) * force;
+
+                // Apply velocity with damping
+                particle.vx *= 0.98;
+                particle.vy *= 0.98;
+
+                particle.x += particle.vx;
+                particle.y += particle.vy;
+
+                // Update position
+                particle.element.style.left = particle.x + 'px';
+                particle.element.style.top = particle.y + 'px';
+
+                // Fade out as approaching curve
+                if (distance < 100) {
+                    particle.life = distance / 100;
+                    particle.element.style.opacity = particle.life * 0.7;
+                }
+
+                // Check if absorbed (reached curve area)
+                return distance > 20;
+            }
+
+            animate() {
+                // Spawn new particles
+                if (this.particles.length < this.maxParticles && Math.random() < this.spawnRate) {
+                    this.createParticle();
+                }
+
+                // Update existing particles
+                this.particles = this.particles.filter(particle => {
+                    const alive = this.updateParticle(particle);
+                    if (!alive) {
+                        particle.element.remove();
+                    }
+                    return alive;
+                });
+
+                requestAnimationFrame(() => this.animate());
+            }
+
+            resize() {
+                this.curveY = window.innerHeight * 0.85;
+            }
+        }
+
+        // Initialize particle system when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            const particleSystem = new ParticleSystem();
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                particleSystem.resize();
+            });
+        });
+    </script>
 </body>
 </html>
