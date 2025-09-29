@@ -454,10 +454,13 @@
                     element: document.createElement('div'),
                     x: Math.random() * window.innerWidth,
                     y: Math.random() * window.innerHeight * 0.6, // Spawn in upper 60%
-                    vx: 0,
-                    vy: 0,
-                    size: Math.random() * 2 + 2, // 2-4px
-                    life: 1.0
+                    vx: (Math.random() - 0.5) * 0.2, // Random initial velocity
+                    vy: (Math.random() - 0.5) * 0.2,
+                    size: Math.random() * 5 + 1, // 1-6px (more varied)
+                    life: 1.0,
+                    opacity: Math.random() * 0.4 + 0.3, // 0.3-0.7 opacity
+                    attractionForce: Math.random() * 0.3 + 0.2, // 0.2-0.5 force variation
+                    wobble: Math.random() * 0.05 + 0.01 // Random drift amount
                 };
 
                 particle.element.className = 'particle';
@@ -465,29 +468,60 @@
                 particle.element.style.height = particle.size + 'px';
                 particle.element.style.left = particle.x + 'px';
                 particle.element.style.top = particle.y + 'px';
+                particle.element.style.opacity = particle.opacity;
 
                 this.container.appendChild(particle.element);
                 this.particles.push(particle);
             }
 
-            updateParticle(particle) {
-                // Calculate attraction to curve center
+            // Calculate closest point on elliptical curve
+            getClosestCurvePoint(px, py) {
                 const centerX = window.innerWidth / 2;
-                const centerY = this.curveY;
+                const curveY = this.curveY;
+                const ellipseWidth = window.innerWidth * 0.3; // 30% width from CSS
+                const ellipseHeight = window.innerHeight * 0.15; // 15% height from CSS
 
-                const dx = centerX - particle.x;
-                const dy = centerY - particle.y;
-                const distance = Math.sqrt(dx * dx + dy * dy);
+                let closestX = centerX;
+                let closestY = curveY;
+                let minDistance = Infinity;
 
-                // Attraction force (stronger as particle gets closer)
-                const force = Math.min(0.5, 50 / (distance + 10));
+                // Sample points along the ellipse curve
+                for (let angle = 0; angle < Math.PI; angle += 0.1) {
+                    const x = centerX + (ellipseWidth * Math.cos(angle));
+                    const y = curveY - (ellipseHeight * Math.sin(angle));
 
-                particle.vx += (dx / distance) * force;
-                particle.vy += (dy / distance) * force;
+                    const dist = Math.sqrt((px - x) ** 2 + (py - y) ** 2);
+                    if (dist < minDistance) {
+                        minDistance = dist;
+                        closestX = x;
+                        closestY = y;
+                    }
+                }
 
-                // Apply velocity with damping
-                particle.vx *= 0.98;
-                particle.vy *= 0.98;
+                return { x: closestX, y: closestY, distance: minDistance };
+            }
+
+            updateParticle(particle) {
+                // Find closest point on the curved path
+                const curvePoint = this.getClosestCurvePoint(particle.x, particle.y);
+
+                const dx = curvePoint.x - particle.x;
+                const dy = curvePoint.y - particle.y;
+                const distance = curvePoint.distance;
+
+                // Variable attraction force based on particle properties
+                const baseForce = Math.min(particle.attractionForce, 50 / (distance + 10));
+
+                // Add some irregularity with wobble
+                const wobbleX = (Math.random() - 0.5) * particle.wobble;
+                const wobbleY = (Math.random() - 0.5) * particle.wobble;
+
+                particle.vx += (dx / distance) * baseForce + wobbleX;
+                particle.vy += (dy / distance) * baseForce + wobbleY;
+
+                // Apply velocity with slight damping
+                particle.vx *= 0.97;
+                particle.vy *= 0.97;
 
                 particle.x += particle.vx;
                 particle.y += particle.vy;
@@ -496,19 +530,20 @@
                 particle.element.style.left = particle.x + 'px';
                 particle.element.style.top = particle.y + 'px';
 
-                // Fade out as approaching curve
-                if (distance < 100) {
-                    particle.life = distance / 100;
-                    particle.element.style.opacity = particle.life * 0.7;
+                // Fade out as approaching any point on curve
+                if (distance < 80) {
+                    particle.life = distance / 80;
+                    particle.element.style.opacity = (particle.life * particle.opacity);
                 }
 
                 // Check if absorbed (reached curve area)
-                return distance > 20;
+                return distance > 15;
             }
 
             animate() {
-                // Spawn new particles
-                if (this.particles.length < this.maxParticles && Math.random() < this.spawnRate) {
+                // Spawn new particles with irregular timing
+                const irregularSpawnRate = this.spawnRate * (0.5 + Math.random());
+                if (this.particles.length < this.maxParticles && Math.random() < irregularSpawnRate) {
                     this.createParticle();
                 }
 
