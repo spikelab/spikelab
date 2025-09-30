@@ -183,25 +183,25 @@
         }
 
         /* Colored circles behind photo */
-        .circle-blue {
-            position: absolute;
-            width: 85%;
-            height: 85%;
-            border-radius: 50%;
-            background: var(--color-secondary);
-            top: 0;
-            right: 0;
-            z-index: 1;
-        }
-
-        .circle-orange {
+        .circle-primary {
             position: absolute;
             width: 85%;
             height: 85%;
             border-radius: 50%;
             background: var(--color-primary);
-            bottom: 0;
-            left: 0;
+            top: -4%;
+            right: -4%;
+            z-index: 1;
+        }
+
+        .circle-secondary {
+            position: absolute;
+            width: 85%;
+            height: 85%;
+            border-radius: 50%;
+            background: var(--color-secondary);
+            bottom: -4%;
+            left: -4%;
             z-index: 0;
         }
 
@@ -421,8 +421,8 @@
                 <!-- Photo with colored circles -->
                 <div class="photo-section">
                     <div class="photo-container">
-                        <div class="circle-blue"></div>
-                        <div class="circle-orange"></div>
+                        <div class="circle-primary"></div>
+                        <div class="circle-secondary"></div>
                         <img src="imgs/me.jpg" alt="Filippo" class="profile-photo">
                     </div>
                 </div>
