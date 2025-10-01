@@ -109,11 +109,20 @@
 
         /* Main content area */
         .content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3rem;
+            flex: 1;
+        }
+
+        /* Top section with text columns */
+        .top-section {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 4rem;
             align-items: start;
-            flex: 1;
+            width: 100%;
         }
 
         /* Left column - big text */
@@ -126,14 +135,7 @@
             margin: 0;
         }
 
-        /* Right column - description and photo */
-        .right-content {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 3rem;
-            align-items: start;
-        }
-
+        /* Right column - description */
         .text-section {
             padding-top: 1rem;
         }
@@ -160,11 +162,12 @@
             margin-bottom: 1.5rem;
         }
 
-        /* Photo section */
+        /* Photo section - centered below text */
         .photo-section {
             position: relative;
-            width: 100%;
-            aspect-ratio: 1;
+            width: 320px;
+            height: 320px;
+            margin: 2rem auto;
         }
 
         .photo-container {
@@ -180,29 +183,59 @@
             border-radius: 50%;
             position: relative;
             z-index: 2;
+            filter: blur(0px);
+            box-shadow: inset 0 0 40px 20px rgba(34, 40, 49, 0.4);
         }
 
-        /* Colored circles behind photo */
-        .circle-primary {
+        .profile-photo::after {
+            content: '';
             position: absolute;
-            width: 85%;
-            height: 85%;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
             border-radius: 50%;
-            background: var(--color-primary);
-            top: -4%;
-            right: -4%;
-            z-index: 1;
+            box-shadow: inset 0 0 60px 40px var(--color-bg);
+            pointer-events: none;
         }
 
-        .circle-secondary {
+        /* Blob animation */
+        @keyframes blob-morph {
+            0% {
+                border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+                transform: scale(1) rotate(0deg);
+            }
+            25% {
+                border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+                transform: scale(1.15) rotate(90deg);
+            }
+            50% {
+                border-radius: 50% 60% 30% 60% / 30% 60% 70% 40%;
+                transform: scale(1.05) rotate(180deg);
+            }
+            75% {
+                border-radius: 60% 40% 60% 40% / 70% 30% 50% 60%;
+                transform: scale(1.2) rotate(270deg);
+            }
+            100% {
+                border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+                transform: scale(1) rotate(360deg);
+            }
+        }
+
+        /* Animated blob behind photo */
+        .blob {
             position: absolute;
-            width: 85%;
-            height: 85%;
-            border-radius: 50%;
-            background: var(--color-secondary);
-            bottom: -4%;
-            left: -4%;
+            width: 110%;
+            height: 110%;
+            top: -5%;
+            left: -5%;
+            background: radial-gradient(circle at 40% 40%, var(--color-primary), var(--color-secondary));
             z-index: 0;
+            animation: blob-morph 10s ease-in-out infinite;
+            box-shadow: 0 0 40px rgba(0, 173, 181, 0.5),
+                        0 0 80px rgba(57, 62, 70, 0.3);
+            filter: blur(2px);
         }
 
         /* Links section */
@@ -305,18 +338,13 @@
 
         /* Responsive design */
         @media (max-width: 1024px) {
-            .content {
+            .top-section {
                 gap: 2.5rem;
             }
 
-            .right-content {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-
             .photo-section {
-                max-width: 300px;
-                justify-self: center;
+                width: 300px;
+                height: 300px;
             }
         }
 
@@ -330,8 +358,12 @@
                 margin-bottom: 1.5rem;
             }
 
-            .content {
+            .top-section {
                 grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .content {
                 gap: 2rem;
                 margin-bottom: 1rem;
             }
@@ -339,6 +371,11 @@
             .big-text {
                 font-size: clamp(3.5rem, 12vw, 8rem);
                 margin-bottom: 2rem;
+            }
+
+            .photo-section {
+                width: 250px;
+                height: 250px;
             }
 
             .nav {
@@ -388,13 +425,14 @@
 
         <!-- Main content -->
         <div class="content">
-            <!-- Left column - big text -->
-            <div class="left-column">
-                <h1 class="big-text">product engineer creative mentor</h1>
-            </div>
+            <!-- Top section with text -->
+            <div class="top-section">
+                <!-- Left column - big text -->
+                <div class="left-column">
+                    <h1 class="big-text">product engineer creative mentor</h1>
+                </div>
 
-            <!-- Right column - description and photo -->
-            <div class="right-content">
+                <!-- Right column - description -->
                 <div class="text-section">
                     <p class="description">
                         Hello,
@@ -402,7 +440,7 @@
                     <p class="description">
                         my name is Filippo. I'm an ex-Googler with over 20+ years of experience in tech, 2x founder and startup mentor turned product leader.
                     </p>
-                    
+
                     <p class="description">
                         If you're looking for my open office hrs, I no longer offer that, sorry, but you're welcome to reach out if you'd like to chat, I respond to all emails even if it may take me a while.
                    </p>
@@ -415,16 +453,14 @@
                         <a href="mailto:fsm+web@spikelab.org" class="cta-button cta-primary">Reach Out</a>
                         <a href="https://spikelab.substack.com" target="_blank" class="cta-button cta-secondary">Read on Substack</a>
                     </div>
-
                 </div>
+            </div>
 
-                <!-- Photo with colored circles -->
-                <div class="photo-section">
-                    <div class="photo-container">
-                        <div class="circle-primary"></div>
-                        <div class="circle-secondary"></div>
-                        <img src="imgs/me.jpg" alt="Filippo" class="profile-photo">
-                    </div>
+            <!-- Photo centered below text -->
+            <div class="photo-section">
+                <div class="photo-container">
+                    <div class="blob"></div>
+                    <img src="imgs/me.jpg" alt="Filippo" class="profile-photo">
                 </div>
             </div>
         </div>
