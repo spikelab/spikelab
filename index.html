@@ -271,25 +271,6 @@
             flex-wrap: wrap;
         }
 
-        /* Running border animation */
-        @keyframes running-border {
-            0% {
-                stroke-dashoffset: 1000;
-            }
-            100% {
-                stroke-dashoffset: 0;
-            }
-        }
-
-        @keyframes glow-pulse {
-            0%, 100% {
-                filter: drop-shadow(0 0 8px var(--color-primary)) drop-shadow(0 0 12px var(--color-primary));
-            }
-            50% {
-                filter: drop-shadow(0 0 12px var(--color-primary)) drop-shadow(0 0 18px var(--color-primary));
-            }
-        }
-
         .cta-button {
             display: inline-block;
             padding: 1rem 2rem;
@@ -318,54 +299,11 @@
         .cta-secondary {
             background: var(--color-secondary);
             color: white;
-            position: relative;
-            border: 2px solid rgba(0, 173, 181, 0.2);
-        }
-
-        .cta-secondary svg {
-            position: absolute;
-            inset: -2px;
-            width: calc(100% + 4px);
-            height: calc(100% + 4px);
-            pointer-events: none;
-            overflow: visible;
-        }
-
-        .cta-secondary svg rect {
-            fill: none;
-            stroke: var(--color-primary);
-            stroke-width: 3;
-            stroke-dasharray: 100 900;
-            stroke-dashoffset: 1000;
-            animation: running-border 4s linear infinite;
-            filter: drop-shadow(0 0 8px var(--color-primary)) drop-shadow(0 0 12px var(--color-primary));
-            rx: 8;
-            ry: 8;
         }
 
         .cta-secondary:hover {
             background: var(--color-accent);
             transform: translateY(-1px);
-        }
-
-        /* Particle effect styles */
-        #particle-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 2;
-        }
-
-        .particle {
-            position: absolute;
-            width: 3px;
-            height: 3px;
-            background: var(--color-text);
-            border-radius: 50%;
-            opacity: 0.7;
         }
 
         /* Copyright text positioned over curve */
@@ -456,12 +394,6 @@
     </style>
 </head>
 <body>
-    <!-- Particle effect container -->
-    <div id="particle-container"></div>
-
-    <!-- Curved background shape -->
-    <div class="curved-bg"></div>
-
     <div class="container">
         <!-- Header (empty now) -->
         <header class="header">
@@ -499,12 +431,7 @@
 
                     <div class="cta-section">
                         <a href="mailto:fsm+web@spikelab.org" class="cta-button cta-primary">Reach Out</a>
-                        <a href="https://spikelab.substack.com" target="_blank" class="cta-button cta-secondary">
-                            <svg>
-                                <rect x="0" y="0" width="100%" height="100%" />
-                            </svg>
-                            Read on Substack
-                        </a>
+                        <a href="https://spikelab.substack.com" target="_blank" class="cta-button cta-secondary">Read on Substack</a>
                     </div>
                 </div>
             </div>
@@ -522,146 +449,5 @@
     <!-- Copyright positioned within the curve -->
     <div class="copyright-text">© 2025 SpikeLab</div>
 
-    <script>
-        class ParticleSystem {
-            constructor() {
-                this.particles = [];
-                this.container = document.getElementById('particle-container');
-                this.maxParticles = 20;
-                this.spawnRate = 0.3; // Probability per frame
-                this.curveY = window.innerHeight * 0.85; // 85% down (curve starts at 15% from bottom)
-
-                this.init();
-            }
-
-            init() {
-                this.animate();
-            }
-
-            createParticle() {
-                const particle = {
-                    element: document.createElement('div'),
-                    x: Math.random() * window.innerWidth,
-                    y: Math.random() * window.innerHeight * 0.6, // Spawn in upper 60%
-                    vx: (Math.random() - 0.5) * 0.2, // Random initial velocity
-                    vy: (Math.random() - 0.5) * 0.2,
-                    size: Math.random() * 5 + 1, // 1-6px (more varied)
-                    life: 1.0,
-                    opacity: Math.random() * 0.4 + 0.3, // 0.3-0.7 opacity
-                    attractionForce: Math.random() * 0.3 + 0.2, // 0.2-0.5 force variation
-                    wobble: Math.random() * 0.05 + 0.01 // Random drift amount
-                };
-
-                particle.element.className = 'particle';
-                particle.element.style.width = particle.size + 'px';
-                particle.element.style.height = particle.size + 'px';
-                particle.element.style.left = particle.x + 'px';
-                particle.element.style.top = particle.y + 'px';
-                particle.element.style.opacity = particle.opacity;
-
-                this.container.appendChild(particle.element);
-                this.particles.push(particle);
-            }
-
-            // Calculate closest point on elliptical curve
-            getClosestCurvePoint(px, py) {
-                const centerX = window.innerWidth / 2;
-                const curveY = this.curveY;
-                const ellipseWidth = window.innerWidth * 0.3; // 30% width from CSS
-                const ellipseHeight = window.innerHeight * 0.15; // 15% height from CSS
-
-                let closestX = centerX;
-                let closestY = curveY;
-                let minDistance = Infinity;
-
-                // Sample points along the ellipse curve
-                for (let angle = 0; angle < Math.PI; angle += 0.1) {
-                    const x = centerX + (ellipseWidth * Math.cos(angle));
-                    const y = curveY - (ellipseHeight * Math.sin(angle));
-
-                    const dist = Math.sqrt((px - x) ** 2 + (py - y) ** 2);
-                    if (dist < minDistance) {
-                        minDistance = dist;
-                        closestX = x;
-                        closestY = y;
-                    }
-                }
-
-                return { x: closestX, y: closestY, distance: minDistance };
-            }
-
-            updateParticle(particle) {
-                // Find closest point on the curved path
-                const curvePoint = this.getClosestCurvePoint(particle.x, particle.y);
-
-                const dx = curvePoint.x - particle.x;
-                const dy = curvePoint.y - particle.y;
-                const distance = curvePoint.distance;
-
-                // Variable attraction force based on particle properties
-                const baseForce = Math.min(particle.attractionForce, 50 / (distance + 10));
-
-                // Add some irregularity with wobble
-                const wobbleX = (Math.random() - 0.5) * particle.wobble;
-                const wobbleY = (Math.random() - 0.5) * particle.wobble;
-
-                particle.vx += (dx / distance) * baseForce + wobbleX;
-                particle.vy += (dy / distance) * baseForce + wobbleY;
-
-                // Apply velocity with slight damping
-                particle.vx *= 0.97;
-                particle.vy *= 0.97;
-
-                particle.x += particle.vx;
-                particle.y += particle.vy;
-
-                // Update position
-                particle.element.style.left = particle.x + 'px';
-                particle.element.style.top = particle.y + 'px';
-
-                // Fade out as approaching any point on curve
-                if (distance < 80) {
-                    particle.life = distance / 80;
-                    particle.element.style.opacity = (particle.life * particle.opacity);
-                }
-
-                // Check if absorbed (reached curve area)
-                return distance > 15;
-            }
-
-            animate() {
-                // Spawn new particles with irregular timing
-                const irregularSpawnRate = this.spawnRate * (0.5 + Math.random());
-                if (this.particles.length < this.maxParticles && Math.random() < irregularSpawnRate) {
-                    this.createParticle();
-                }
-
-                // Update existing particles
-                this.particles = this.particles.filter(particle => {
-                    const alive = this.updateParticle(particle);
-                    if (!alive) {
-                        particle.element.remove();
-                    }
-                    return alive;
-                });
-
-                requestAnimationFrame(() => this.animate());
-            }
-
-            resize() {
-                this.curveY = window.innerHeight * 0.85;
-            }
-        }
-
-        // Initialize particle system when page loads
-        document.addEventListener('DOMContentLoaded', () => {
-            const particleSystem = new ParticleSystem();
-
-            // Handle window resize
-            window.addEventListener('resize', () => {
-                particleSystem.resize();
-            });
-        });
-    </script>
 </body>
 </html>
