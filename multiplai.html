@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>multiplai — A Personal AI System</title>
+<title>multiplai — Designed for the human in the loop</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
 
@@ -30,7 +30,7 @@
   html { scroll-behavior: smooth; }
 
   body {
-    font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+    font-family: 'JetBrains Mono', 'IBM Plex Mono', 'SF Mono', monospace;
     background: var(--bg);
     color: var(--text);
     line-height: 1.7;
@@ -81,512 +81,22 @@
   }
 
   .hero .tagline {
-    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    font-size: clamp(1.1rem, 2.5vw, 1.35rem);
     color: var(--text-dim);
-    font-weight: 300;
-    margin-bottom: 2rem;
-    line-height: 1.5;
-  }
-
-  .hero .hook {
-    font-size: 0.95rem;
-    color: var(--text-muted);
-    max-width: 560px;
-    margin: 0 auto 3rem;
-    line-height: 1.8;
-  }
-
-  .hero .hook strong {
-    color: var(--text-dim);
-    font-weight: 500;
-  }
-
-  .scroll-indicator {
-    position: absolute;
-    bottom: 2rem;
-    left: 50%;
-    transform: translateX(-50%);
-    color: var(--text-muted);
-    font-size: 0.75rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    animation: pulse 2s ease-in-out infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 0.3; }
-    50% { opacity: 0.7; }
-  }
-
-  /* --- Sections --- */
-  section {
-    padding: 6rem 2rem;
-    max-width: var(--max-width);
-    margin: 0 auto;
-  }
-
-  section.wide {
-    max-width: 900px;
-  }
-
-  .section-label {
-    font-size: 0.7rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 1rem;
-    font-weight: 500;
-  }
-
-  h2 {
-    font-size: clamp(1.5rem, 3.5vw, 2rem);
-    font-weight: 600;
+    font-weight: 400;
     margin-bottom: 1.5rem;
-    letter-spacing: -0.01em;
-    line-height: 1.3;
+    line-height: 1.6;
   }
 
-  h3 {
-    font-size: 1.1rem;
-    font-weight: 600;
-    margin-bottom: 0.75rem;
-    color: var(--text);
-  }
-
-  p {
-    margin-bottom: 1.25rem;
-    color: var(--text-dim);
-  }
-
-  p:last-child { margin-bottom: 0; }
-
-  /* --- Divider --- */
-  .divider {
-    max-width: var(--max-width);
-    margin: 0 auto;
-    border: none;
-    border-top: 1px solid var(--border);
-  }
-
-  /* --- Not For Everyone Banner --- */
-  .warning-banner {
-    max-width: var(--max-width);
-    margin: 0 auto;
-    padding: 4rem 2rem;
-    text-align: center;
-  }
-
-  .warning-banner .warning-text {
-    font-size: 0.85rem;
-    color: var(--amber);
-    font-weight: 500;
-    letter-spacing: 0.05em;
-    margin-bottom: 1rem;
-  }
-
-  .warning-banner p {
+  .hero .sub {
     font-size: 0.9rem;
-    color: var(--text-dim);
+    color: var(--text-muted);
     max-width: 560px;
-    margin: 0 auto;
+    margin: 0 auto 2.5rem;
     line-height: 1.8;
   }
 
-  /* --- 8 Stages Chart --- */
-  .stages-chart {
-    margin-top: 2.5rem;
-    background: var(--bg-secondary);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 2rem 2rem 1.5rem;
-  }
-
-  .stages-grid {
-    display: flex;
-    align-items: flex-end;
-    gap: 6px;
-    min-height: 260px;
-    padding-bottom: 0.5rem;
-  }
-
-  .stage-col {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-  }
-
-  .stage-bar {
-    width: 100%;
-    border-radius: 3px 3px 0 0;
-    transition: filter 0.2s;
-    min-width: 0;
-  }
-
-  .stage-bar.tier-1 { background: #3a4050; }
-  .stage-bar.tier-2 { background: #5a6270; }
-  .stage-bar.tier-3 { background: var(--accent); }
-
-  .stage-col:hover .stage-bar { filter: brightness(1.3); }
-
-  .stage-label {
-    margin-top: 0.5rem;
-    text-align: center;
-    height: 2.2rem;
-  }
-
-  .stage-number {
-    font-size: 0.6rem;
-    color: var(--text-muted);
-    font-weight: 600;
-    display: block;
-  }
-
-  .stage-name {
-    font-size: 0.55rem;
-    color: var(--text-dim);
-    line-height: 1.3;
-    display: block;
-    margin-top: 0.15rem;
-  }
-
-  .tier-brackets {
-    display: flex;
-    gap: 6px;
-    margin-top: 1.25rem;
-  }
-
-  .tier-bracket {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.6rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    padding: 0.35rem 0;
-    border-top: 2px solid;
-  }
-
-  .tier-bracket.t1 {
-    flex: 3;
-    color: var(--text-muted);
-    border-color: var(--text-muted);
-  }
-
-  .tier-bracket.t2 {
-    flex: 2;
-    color: var(--text-dim);
-    border-color: var(--text-dim);
-  }
-
-  .tier-bracket.t3 {
-    flex: 3;
-    color: var(--accent);
-    border-color: var(--accent);
-  }
-
-  .stage-callouts {
-    margin-top: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
-  }
-
-  .stage-callout {
-    font-size: 0.7rem;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-  }
-
-  .stage-callout .arrow { font-size: 0.65rem; }
-
-  .stage-callout.callout-most { color: var(--text-muted); }
-  .stage-callout.callout-10x { color: var(--text-dim); }
-  .stage-callout.callout-here { color: var(--accent); font-weight: 600; }
-
-  .stages-credit {
-    margin-top: 1.25rem;
-    font-size: 0.6rem;
-    color: var(--text-muted);
-    font-style: italic;
-  }
-
-  .stages-credit a {
-    color: var(--text-dim);
-    text-decoration: none;
-    border-bottom: 1px solid var(--border);
-    transition: border-color 0.2s;
-  }
-
-  .stages-credit a:hover { border-color: var(--accent); }
-
-  @media (max-width: 600px) {
-    .stages-chart { padding: 1.25rem 1rem; }
-    .stages-grid { min-height: 180px; }
-    .stage-name { display: none; }
-    .tier-bracket { font-size: 0.5rem; }
-  }
-
-  /* --- Pillar Cards --- */
-  .pillars {
-    display: grid;
-    gap: 1.5rem;
-    margin-top: 2rem;
-  }
-
-  .pillar {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 1.75rem;
-    transition: border-color 0.2s, background 0.2s;
-  }
-
-  .pillar:hover {
-    border-color: var(--accent);
-    background: var(--bg-card-hover);
-  }
-
-  .pillar-number {
-    font-size: 0.7rem;
-    color: var(--accent);
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    margin-bottom: 0.75rem;
-  }
-
-  .pillar h3 { margin-bottom: 0.5rem; }
-
-  .pillar p {
-    font-size: 0.9rem;
-    line-height: 1.7;
-  }
-
-  /* --- Problem/Solution Pairs --- */
-  .problem-block {
-    margin-bottom: 3rem;
-  }
-
-  .problem-block:last-child { margin-bottom: 0; }
-
-  .problem-tag {
-    display: inline-block;
-    font-size: 0.65rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 0.2rem 0.5rem;
-    border-radius: 3px;
-    margin-bottom: 0.75rem;
-  }
-
-  .tag-problem {
-    color: var(--red);
-    background: rgba(201, 64, 64, 0.12);
-  }
-
-  .tag-solution {
-    color: var(--green);
-    background: rgba(45, 138, 78, 0.12);
-  }
-
-  .tag-opinion {
-    color: var(--amber);
-    background: rgba(232, 168, 56, 0.12);
-  }
-
-  /* --- Architecture Diagram --- */
-  .arch-diagram {
-    background: var(--bg-secondary);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 2rem;
-    margin: 2rem 0;
-    overflow-x: auto;
-    font-size: 0.85rem;
-    line-height: 1.6;
-    color: var(--text-dim);
-  }
-
-  .arch-flow {
-    display: flex;
-    align-items: center;
-    gap: 0;
-    justify-content: center;
-  }
-
-  .arch-node {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 1rem 1.25rem;
-    text-align: center;
-    flex: 1;
-    max-width: 220px;
-  }
-
-  .arch-node h4 {
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: var(--accent);
-    margin-bottom: 0.3rem;
-  }
-
-  .arch-node p {
-    font-size: 0.65rem;
-    color: var(--text-dim);
-    line-height: 1.4;
-    margin: 0;
-  }
-
-  .arch-arrow {
-    color: var(--text-muted);
-    font-size: 0.6rem;
-    padding: 0 0.5rem;
-    text-align: center;
-    flex-shrink: 0;
-    line-height: 1.3;
-  }
-
-  .arch-arrow span {
-    display: block;
-    color: var(--accent);
-    font-size: 0.85rem;
-    letter-spacing: -0.05em;
-  }
-
-  @media (max-width: 600px) {
-    .arch-flow { flex-direction: column; gap: 0.5rem; }
-    .arch-node { max-width: 100%; }
-    .arch-arrow span { transform: rotate(90deg); display: inline-block; }
-  }
-
-  /* --- Opinion Block --- */
-  .opinion {
-    border-left: 3px solid var(--amber);
-    padding-left: 1.25rem;
-    margin: 1.5rem 0;
-  }
-
-  .opinion p {
-    font-size: 0.9rem;
-    color: var(--text-dim);
-    font-style: italic;
-  }
-
-  /* --- Journey Timeline --- */
-  .timeline {
-    margin-top: 2rem;
-    position: relative;
-    padding-left: 2rem;
-  }
-
-  .timeline::before {
-    content: '';
-    position: absolute;
-    left: 0.35rem;
-    top: 0.5rem;
-    bottom: 0.5rem;
-    width: 1px;
-    background: var(--border);
-  }
-
-  .timeline-item {
-    position: relative;
-    margin-bottom: 2rem;
-  }
-
-  .timeline-item:last-child { margin-bottom: 0; }
-
-  .timeline-item::before {
-    content: '';
-    position: absolute;
-    left: -1.65rem;
-    top: 0.6rem;
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: var(--text-muted);
-  }
-
-  .timeline-item.active::before {
-    background: var(--accent);
-    box-shadow: 0 0 6px rgba(0, 173, 181, 0.4);
-  }
-
-  .timeline-item h4 {
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--text);
-    margin-bottom: 0.3rem;
-  }
-
-  .timeline-item p {
-    font-size: 0.85rem;
-    line-height: 1.6;
-  }
-
-  .timeline-item .result {
-    font-size: 0.8rem;
-    color: var(--red);
-    font-weight: 500;
-    margin-top: 0.3rem;
-  }
-
-  .timeline-item.active .result {
-    color: var(--green);
-  }
-
-  /* --- Feature Grid --- */
-  .features {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.25rem;
-    margin-top: 2rem;
-  }
-
-  .feature {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 1.5rem;
-  }
-
-  .feature h4 {
-    font-size: 0.9rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: var(--text);
-  }
-
-  .feature p {
-    font-size: 0.85rem;
-    line-height: 1.6;
-  }
-
-  /* --- CTA --- */
-  .cta-section {
-    text-align: center;
-    padding: 6rem 2rem 8rem;
-    max-width: var(--max-width);
-    margin: 0 auto;
-  }
-
-  .cta-section h2 {
-    margin-bottom: 1rem;
-  }
-
-  .cta-section p {
-    max-width: 520px;
-    margin: 0 auto 2rem;
-    font-size: 0.95rem;
-  }
-
-  .cta-link {
+  .hero-cta {
     display: inline-block;
     color: var(--accent);
     text-decoration: none;
@@ -596,15 +106,371 @@
     border: 1px solid var(--accent);
     border-radius: 4px;
     transition: background 0.2s, color 0.2s;
+    margin-bottom: 3rem;
   }
 
-  .cta-link:hover {
+  .hero-cta:hover {
     background: var(--accent);
     color: var(--bg);
   }
 
-  /* --- Responsive --- */
+  /* --- Device Mockups --- */
+  .devices {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-end;
+    justify-content: center;
+    max-width: 720px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .mac-mock {
+    flex: 1;
+    max-width: 460px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    text-align: left;
+    font-size: 0.75rem;
+  }
+
+  .mac-titlebar {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border);
+    gap: 0.4rem;
+  }
+
+  .mac-dot { width: 9px; height: 9px; border-radius: 50%; }
+  .mac-dot:nth-child(1) { background: var(--red); }
+  .mac-dot:nth-child(2) { background: var(--amber); }
+  .mac-dot:nth-child(3) { background: var(--green); }
+
+  .mac-title {
+    flex: 1; text-align: center;
+    font-size: 0.65rem; color: var(--text-muted); letter-spacing: 0.02em;
+  }
+
+  .mac-body { display: flex; min-height: 280px; }
+
+  .app-sidebar {
+    width: 44px; background: rgba(0,0,0,0.15);
+    border-right: 1px solid var(--border);
+    padding: 0.75rem 0;
+    display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+  }
+
+  .nav-icon {
+    width: 28px; height: 24px; border-radius: 5px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.6rem; color: var(--text-muted);
+  }
+
+  .nav-icon.active { background: var(--accent-dim); color: var(--accent); }
+
+  .triage-content {
+    flex: 1; padding: 1rem;
+    display: flex; flex-direction: column; gap: 0.6rem;
+  }
+
+  .triage-header {
+    font-size: 0.65rem; color: var(--text-muted);
+    letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.25rem;
+  }
+
+  .learning-card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 6px; padding: 0.75rem;
+    opacity: 0; animation: cardIn 0.4s ease forwards;
+  }
+  .learning-card:nth-child(2) { animation-delay: 0.6s; }
+  .learning-card:nth-child(3) { animation-delay: 1.1s; }
+  .learning-card:nth-child(4) { animation-delay: 1.6s; }
+  .learning-card.approved { border-left: 2px solid var(--green); }
+  .learning-card.pending { border-left: 2px solid var(--amber); }
+
+  .card-source { font-size: 0.55rem; color: var(--text-muted); margin-bottom: 0.3rem; }
+  .card-text { font-size: 0.7rem; color: var(--text-dim); line-height: 1.5; margin-bottom: 0.4rem; }
+  .card-actions { display: flex; gap: 0.5rem; font-size: 0.55rem; }
+  .card-action { padding: 0.15rem 0.4rem; border-radius: 3px; letter-spacing: 0.03em; }
+  .card-action.approve { background: rgba(45, 138, 78, 0.15); color: var(--green); }
+  .card-action.reject { color: var(--text-muted); }
+  .card-action.edit { color: var(--text-muted); }
+
+  @keyframes cardIn {
+    from { opacity: 0; transform: translateX(-8px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .iphone-mock {
+    width: 160px; flex-shrink: 0;
+    background: var(--bg-secondary); border: 2px solid var(--text-muted);
+    border-radius: 20px; overflow: hidden; font-size: 0.65rem;
+  }
+
+  .iphone-notch { width: 60px; height: 5px; background: var(--text-muted); border-radius: 0 0 8px 8px; margin: 0 auto; }
+
+  .iphone-body {
+    padding: 0.75rem 0.6rem; min-height: 220px;
+    display: flex; flex-direction: column; gap: 0.5rem;
+  }
+
+  .iphone-header { font-size: 0.6rem; color: var(--text-muted); text-align: center; letter-spacing: 0.05em; }
+
+  .iphone-status { display: flex; flex-direction: column; gap: 0.35rem; margin-top: 0.25rem; }
+
+  .agent-row {
+    display: flex; align-items: center; gap: 0.35rem; font-size: 0.55rem;
+    opacity: 0; animation: fadeIn 0.3s ease forwards;
+  }
+  .agent-row:nth-child(1) { animation-delay: 2.0s; }
+  .agent-row:nth-child(2) { animation-delay: 2.3s; }
+  .agent-row:nth-child(3) { animation-delay: 2.6s; }
+  .agent-row:nth-child(4) { animation-delay: 2.9s; }
+
+  .agent-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+  .agent-dot.green { background: var(--green); }
+  .agent-dot.amber { background: var(--amber); }
+  .agent-dot.violet { background: var(--violet); }
+  .agent-name { color: var(--text); flex-shrink: 0; }
+  .agent-status { color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  .voice-bar {
+    margin-top: auto; background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 8px; padding: 0.5rem; text-align: center;
+    opacity: 0; animation: fadeIn 0.3s ease forwards; animation-delay: 3.2s;
+  }
+
+  .voice-waves { display: flex; align-items: center; justify-content: center; gap: 2px; height: 16px; margin-bottom: 0.25rem; }
+  .voice-wave { width: 2px; background: var(--accent); border-radius: 1px; animation: waveform 0.8s ease-in-out infinite alternate; }
+  .voice-wave:nth-child(1) { height: 4px; animation-delay: 0s; }
+  .voice-wave:nth-child(2) { height: 10px; animation-delay: 0.1s; }
+  .voice-wave:nth-child(3) { height: 6px; animation-delay: 0.2s; }
+  .voice-wave:nth-child(4) { height: 14px; animation-delay: 0.15s; }
+  .voice-wave:nth-child(5) { height: 8px; animation-delay: 0.05s; }
+  .voice-wave:nth-child(6) { height: 12px; animation-delay: 0.25s; }
+  .voice-wave:nth-child(7) { height: 5px; animation-delay: 0.1s; }
+
+  @keyframes waveform { from { height: 3px; } to { height: 14px; } }
+
+  .voice-label { font-size: 0.5rem; color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; }
+  .iphone-bar { width: 40px; height: 3px; background: var(--text-muted); border-radius: 2px; margin: 0.5rem auto; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
   @media (max-width: 600px) {
+    .devices { flex-direction: column; align-items: center; }
+    .mac-mock { max-width: 100%; }
+    .iphone-mock { width: 200px; }
+  }
+
+  .scroll-indicator {
+    position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+    color: var(--text-muted); font-size: 0.75rem; letter-spacing: 0.1em;
+    text-transform: uppercase; animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.7; } }
+
+  /* --- Sections --- */
+  section { padding: 6rem 2rem; max-width: var(--max-width); margin: 0 auto; }
+  section.wide { max-width: 900px; }
+
+  .section-label {
+    font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 1rem; font-weight: 500;
+  }
+
+  h2 { font-size: clamp(1.5rem, 3.5vw, 2rem); font-weight: 600; margin-bottom: 1.5rem; letter-spacing: -0.01em; line-height: 1.3; }
+  h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.75rem; color: var(--text); }
+  p { margin-bottom: 1.25rem; color: var(--text-dim); }
+  p:last-child { margin-bottom: 0; }
+
+  .divider { max-width: var(--max-width); margin: 0 auto; border: none; border-top: 1px solid var(--border); }
+
+  /* --- Thesis block --- */
+  .thesis {
+    border-left: 3px solid var(--accent);
+    padding: 1.5rem 1.5rem;
+    margin: 2rem 0;
+    background: var(--accent-dim);
+    border-radius: 0 6px 6px 0;
+  }
+
+  .thesis p {
+    font-size: 0.95rem;
+    color: var(--text);
+    line-height: 1.8;
+    margin: 0;
+  }
+
+  /* --- Facets --- */
+  .facets {
+    display: grid;
+    gap: 2.5rem;
+    margin-top: 2.5rem;
+  }
+
+  .facet {
+    padding-left: 1.25rem;
+    border-left: 2px solid var(--border);
+  }
+
+  .facet-label {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+
+  .facet h3 {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .facet p {
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+
+  /* --- Workflow --- */
+  .workflow { margin-top: 2rem; }
+
+  .workflow-item {
+    margin-bottom: 2.5rem;
+    padding-left: 1.25rem;
+    border-left: 2px solid var(--border);
+  }
+  .workflow-item:last-child { margin-bottom: 0; }
+
+  .workflow-time {
+    font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem;
+  }
+  .workflow-item h4 { font-size: 0.95rem; font-weight: 600; color: var(--text); margin-bottom: 0.4rem; }
+  .workflow-item p { font-size: 0.9rem; line-height: 1.7; }
+
+  /* --- Architecture --- */
+  .arch-flow {
+    display: flex; align-items: center; gap: 0; justify-content: center; margin: 2rem 0;
+  }
+  .arch-node {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px;
+    padding: 1rem 1.25rem; text-align: center; flex: 1; max-width: 220px;
+  }
+  .arch-node h4 { font-size: 0.8rem; font-weight: 600; color: var(--accent); margin-bottom: 0.3rem; }
+  .arch-node p { font-size: 0.65rem; color: var(--text-dim); line-height: 1.4; margin: 0; }
+  .arch-arrow { color: var(--text-muted); font-size: 0.6rem; padding: 0 0.5rem; text-align: center; flex-shrink: 0; line-height: 1.3; }
+  .arch-arrow span { display: block; color: var(--accent); font-size: 0.85rem; letter-spacing: -0.05em; }
+
+  @media (max-width: 600px) {
+    .arch-flow { flex-direction: column; gap: 0.5rem; }
+    .arch-node { max-width: 100%; }
+    .arch-arrow span { transform: rotate(90deg); display: inline-block; }
+  }
+
+  /* --- Stances --- */
+  .stances { margin-top: 2rem; display: grid; gap: 1rem; }
+  .stance {
+    display: grid; grid-template-columns: 200px 1fr; gap: 1rem;
+    padding: 1rem 0; border-bottom: 1px solid var(--border); align-items: baseline;
+  }
+  .stance:last-child { border-bottom: none; }
+  .stance-label { font-size: 0.8rem; font-weight: 600; color: var(--amber); }
+  .stance-desc { font-size: 0.85rem; color: var(--text-dim); margin: 0; }
+
+  @media (max-width: 600px) {
+    .stance { grid-template-columns: 1fr; gap: 0.3rem; }
+  }
+
+  /* --- Features --- */
+  .features {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem; margin-top: 2rem;
+  }
+  .feature { background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; padding: 1.5rem; }
+  .feature h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text); }
+  .feature p { font-size: 0.85rem; line-height: 1.6; }
+
+  /* --- CTA --- */
+  .cta-section { text-align: center; padding: 6rem 2rem 8rem; max-width: var(--max-width); margin: 0 auto; }
+  .cta-section h2 { margin-bottom: 1rem; }
+  .cta-section p { max-width: 560px; margin: 0 auto 2rem; font-size: 0.95rem; }
+  .cta-link {
+    display: inline-block; color: var(--accent); text-decoration: none; font-weight: 500;
+    font-size: 0.9rem; padding: 0.75rem 2rem; border: 1px solid var(--accent); border-radius: 4px;
+    transition: background 0.2s, color 0.2s;
+  }
+  .cta-link:hover { background: var(--accent); color: var(--bg); }
+
+  /* --- Shift comparison --- */
+  .shift-compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin: 2rem 0;
+  }
+
+  .shift-col {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.25rem;
+  }
+
+  .shift-col h4 {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+
+  .shift-col.before h4 { color: var(--text-muted); }
+  .shift-col.after h4 { color: var(--accent); }
+
+  .shift-col ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .shift-col li {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    padding: 0.3rem 0;
+    border-bottom: 1px solid rgba(51, 58, 69, 0.5);
+    line-height: 1.5;
+  }
+
+  .shift-col li:last-child { border-bottom: none; }
+
+  .hype-callout {
+    background: rgba(201, 64, 64, 0.08);
+    border: 1px solid rgba(201, 64, 64, 0.2);
+    border-radius: 6px;
+    padding: 1rem 1.25rem;
+    margin: 1.5rem 0;
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    line-height: 1.7;
+  }
+
+  .hype-callout strong {
+    color: var(--red);
+    font-weight: 600;
+  }
+
+  @media (max-width: 600px) {
+    .shift-compare { grid-template-columns: 1fr; }
     section { padding: 4rem 1.5rem; }
     .hero { padding: 1.5rem; }
     .features { grid-template-columns: 1fr; }
@@ -617,357 +483,370 @@
 <div class="hero">
   <div class="hero-content">
     <h1>multipl<span>ai</span></h1>
-    <p class="tagline">A personal agentic system<br>based on claude code<br>to multiply your impact.</p>
-    <p class="hook">
-      If you've pushed past prompting into agentic workflows, run multiple concurrent agents across coding, research, finances and more. If you've built skills and hooks for more predictability, added subagents and loops for context management and autonomous building, and feel that's still not enough.
-      <br><br>
-      <strong>This may be what you were looking for.</strong>
+    <p class="tagline">A team of AI agents.<br>One human in the loop.</p>
+    <p class="sub">
+      One agent, you follow along. Two or three, you manage. Half a dozen to a dozen,
+      you're running a team — and every tool you have was designed either for async chat,
+      or fully autonomous orchestration you can't steer.
+      multiplai is designed for the humans wanting to effectively manage teams of agents.
     </p>
+    <a href="https://github.com/AgeofIA/multiplai" class="hero-cta">View on GitHub</a>
+
+    <div class="devices">
+      <!-- Mac App -->
+      <div class="mac-mock">
+        <div class="mac-titlebar">
+          <div class="mac-dot"></div>
+          <div class="mac-dot"></div>
+          <div class="mac-dot"></div>
+          <span class="mac-title">multiplai &middot; triage</span>
+        </div>
+        <div class="mac-body">
+          <div class="app-sidebar">
+            <div class="nav-icon">&#9881;</div>
+            <div class="nav-icon active">&#9733;</div>
+            <div class="nav-icon">&#9776;</div>
+            <div class="nav-icon">&#9998;</div>
+          </div>
+          <div class="triage-content">
+            <div class="triage-header">8 learnings &middot; overnight</div>
+            <div class="learning-card approved">
+              <div class="card-source">api-refactor &middot; high confidence</div>
+              <div class="card-text">"Use uv, not pip, for all Python projects"</div>
+              <div class="card-actions">
+                <span class="card-action approve">approved</span>
+              </div>
+            </div>
+            <div class="learning-card pending">
+              <div class="card-source">litellm-debug &middot; high confidence</div>
+              <div class="card-text">"OAuth patch requires 4 files — user_api_key_auth.py is critical"</div>
+              <div class="card-actions">
+                <span class="card-action approve">approve</span>
+                <span class="card-action reject">reject</span>
+                <span class="card-action edit">edit</span>
+              </div>
+            </div>
+            <div class="learning-card pending">
+              <div class="card-source">tax-research &middot; medium confidence</div>
+              <div class="card-text">"Italy-US tax treaty Article 20 covers independent services"</div>
+              <div class="card-actions">
+                <span class="card-action approve">approve</span>
+                <span class="card-action reject">reject</span>
+                <span class="card-action edit">edit</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- iPhone -->
+      <div class="iphone-mock">
+        <div class="iphone-notch"></div>
+        <div class="iphone-body">
+          <div class="iphone-header">agents</div>
+          <div class="iphone-status">
+            <div class="agent-row">
+              <span class="agent-dot green"></span>
+              <span class="agent-name">api</span>
+              <span class="agent-status">done, tests pass</span>
+            </div>
+            <div class="agent-row">
+              <span class="agent-dot amber"></span>
+              <span class="agent-name">migrate</span>
+              <span class="agent-status">needs decision</span>
+            </div>
+            <div class="agent-row">
+              <span class="agent-dot violet"></span>
+              <span class="agent-name">research</span>
+              <span class="agent-status">running &middot; 68%</span>
+            </div>
+            <div class="agent-row">
+              <span class="agent-dot violet"></span>
+              <span class="agent-name">blog</span>
+              <span class="agent-status">running &middot; 23%</span>
+            </div>
+          </div>
+          <div class="voice-bar">
+            <div class="voice-waves">
+              <div class="voice-wave"></div>
+              <div class="voice-wave"></div>
+              <div class="voice-wave"></div>
+              <div class="voice-wave"></div>
+              <div class="voice-wave"></div>
+              <div class="voice-wave"></div>
+              <div class="voice-wave"></div>
+            </div>
+            <div class="voice-label">push to talk</div>
+          </div>
+        </div>
+        <div class="iphone-bar"></div>
+      </div>
+    </div>
   </div>
   <div class="scroll-indicator">scroll</div>
 </div>
 
-<!-- Warning -->
-<div class="warning-banner">
-  <p class="warning-text">This is not for everybody.</p>
+<hr class="divider">
+
+<!-- The Thesis -->
+<section>
+  <div class="section-label">The Shift</div>
+  <h2>1 agent &rarr; 10 agents is a phase change.</h2>
+
+  <div class="shift-compare">
+    <div class="shift-col before">
+      <h4>1 &ndash; 3 agents</h4>
+      <ul>
+        <li>You follow along in detail</li>
+        <li>You see every output, every decision</li>
+        <li>Human-in-the-loop is implicit</li>
+        <li>Tools: terminal, chat UI</li>
+        <li>Bottleneck: the agent's capability</li>
+      </ul>
+    </div>
+    <div class="shift-col after">
+      <h4>6 &ndash; 12 agents</h4>
+      <ul>
+        <li>You're managing a team</li>
+        <li>You need status, not transcripts</li>
+        <li>Human-in-the-loop must be designed</li>
+        <li>Tools: ???</li>
+        <li>Bottleneck: the human's attention</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="hype-callout">
+    <strong>The hype answer:</strong> remove the human. Paperclip, Claw Empire, OpenClaw Mission Control —
+    AI "companies" where every role is a Claude instance. 24K stars in two weeks.
+    But the game of telephone between agent layers causes regression to the mean.
+    Feeling productive and being productive are two very different things.
+  </div>
+
+  <div class="thesis">
+    <p>
+      multiplai is not an orchestrator. It's a harness. The tight human feedback loop
+      that makes Claude Code work doesn't disappear at scale — it needs better
+      instruments. Information compression. Faster feedback. Transparent memory.
+      Trust through isolation. The agent is already good enough. The human's tooling isn't.
+    </p>
+  </div>
+
+  <h3 style="margin-top: 2.5rem;">The system that compounds.</h3>
   <p>
-    multiplai is extremely opinionated. It's built for people who think in Unix,
-    who believe the human in the loop is key and to design for, not bolt on, who want code-driven
-    workflows instead of prompt-driven ones because determinism matters.
+    The hype cycle optimizes for autonomy — remove the human, let agents run.
+    But autonomy without feedback is drift. Every "fully autonomous" system
+    regresses to the mean because there's no one steering it toward <em>your</em> goals.
   </p>
-</div>
+  <p>
+    multiplai takes the opposite bet: the tighter the human feedback loop, the
+    faster the system improves. Every learning you approve sharpens future sessions.
+    Every correction propagates. Every rejected suggestion is signal. The human
+    isn't overhead — the human is the training loop. And the system ships with
+    the infrastructure to make that loop effortless.
+  </p>
+</section>
 
 <hr class="divider">
 
-<!-- 8 Stages of AI Adoption -->
+<!-- What "Human in the Loop" Actually Means -->
+<section>
+  <div class="section-label">What This Means in Practice</div>
+  <h2>Five facets of the human in the loop.</h2>
+
+  <p>
+    "Human in the loop" usually means a gate — approve or reject. That's the least
+    interesting part. The real design surface is much larger.
+  </p>
+
+  <div class="facets">
+    <div class="facet">
+      <div class="facet-label">01 &middot; Consuming Information</div>
+      <h3>Just enough to decide. No more.</h3>
+      <p>
+        Agents produce massive output — transcripts, diffs, logs, reasoning traces.
+        A manager overwhelmed with information becomes slow and makes bad decisions.
+        The same applies to managing agents.
+      </p>
+      <p>
+        multiplai strips Claude Code's raw output to signal. Status dots, not transcripts.
+        Outcome summaries, not logs. "API refactor: 12 files changed, tests pass" — not
+        a 200-line conversation. You drill deeper only when you choose to, not because
+        the system dumped everything on you by default.
+      </p>
+    </div>
+
+    <div class="facet">
+      <div class="facet-label">02 &middot; Giving Feedback</div>
+      <h3>150ms per decision. Swipe, tap, done.</h3>
+      <p>
+        Every session produces learnings — "this approach failed," "user prefers X,"
+        "this API needs 4 files not 3." Most tools discard them. Some auto-add to memory
+        and produce junk (OpenClaw measured 31.3% degradation without consolidation, but
+        over-reflecting also hurts).
+      </p>
+      <p>
+        The hard part isn't capturing — it's the quality gate. multiplai presents learnings
+        as swipeable cards: approve, reject, edit. Each one slides out in 150ms. 12 learnings
+        triaged in 90 seconds on your phone while waiting for coffee. The easier the feedback
+        loop, the faster the system compounds.
+      </p>
+    </div>
+
+    <div class="facet">
+      <div class="facet-label">03 &middot; Trusting at Scale</div>
+      <h3>YOLO inside the container. Safety outside.</h3>
+      <p>
+        You can't manage 10 agents if you're clicking "approve" on every file write.
+        Permission fatigue kills velocity. But running YOLO on your desktop is a genuine
+        trust problem — we've literally caught Claude evading its own sandbox to comply
+        with a command.
+      </p>
+      <p>
+        Every multiplai agent runs in an isolated Docker container. No privileges,
+        capability drops, socket-only access. The container is the blast radius boundary.
+        You trust freely because the worst case is bounded. OrbStack gives sub-second
+        container starts — no friction cost for isolation.
+      </p>
+    </div>
+
+    <div class="facet">
+      <div class="facet-label">04 &middot; Staying in Control</div>
+      <h3>A switchboard, not a wall of terminals.</h3>
+      <p>
+        Six tmux panes and you can't tell which one needs attention. You're
+        context-switching between agents instead of making decisions. That's
+        management overhead, not productivity.
+      </p>
+      <p>
+        multiplai's switchboard shows every agent with a status dot and a one-line
+        summary. Green: done. Amber: needs your decision. Purple: still running
+        with a context percentage. You see the state of everything at a glance.
+        Proportional attention — a quiet badge accumulates, a buzz only when a
+        decision is needed.
+      </p>
+    </div>
+
+    <div class="facet">
+      <div class="facet-label">05 &middot; Building Memory</div>
+      <h3>Transparent, file-based, human-curated.</h3>
+      <p>
+        Everyone claims "memory." Most embed everything into a vector store and hope
+        cosine similarity returns something useful (Mem0, Zep). Others let the agent
+        manage its own memory (Letta/MemGPT). Both are opaque — you can't see what
+        the system "knows," and semantic similarity has a structural bias ("costs" matches
+        finances.md when you're asking about API costs).
+      </p>
+      <p>
+        multiplai uses human-readable markdown files, organized by topic. No vector
+        store. No embeddings. Intent-based retrieval ("what would help this task?")
+        instead of similarity matching. Four corpora — identity, knowledge, work,
+        standards — each with different trust levels and staleness rules. You can
+        open any memory file, read it, edit it. Nothing enters long-term memory
+        without human review. Grounded in Tulving's taxonomy, implemented as
+        engineering, not analogy.
+      </p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- Batteries Included -->
+<section>
+  <div class="section-label">Batteries Included</div>
+  <h2>Not just a UI. A cognitive infrastructure.</h2>
+
+  <p>
+    multiplai isn't a shell around Claude Code. It ships with a full system —
+    the kind of infrastructure that takes months to build by hand, wired together
+    and ready on day one. The UI is how you steer it. This is what you're steering.
+  </p>
+
+  <div class="features" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 2rem;">
+    <div class="feature" style="padding: 1.25rem;">
+      <h4 style="font-size: 0.85rem;">Memory System</h4>
+      <p style="font-size: 0.8rem;">4 corpora — identity, knowledge, work, standards. Intent-based retrieval. Human-curated. Every agent starts with the right context.</p>
+    </div>
+    <div class="feature" style="padding: 1.25rem;">
+      <h4 style="font-size: 0.85rem;">Session Diary</h4>
+      <p style="font-size: 0.8rem;">Auto-logged, searchable captain's log. "What did we work on last Tuesday?" isn't a question — it's a query.</p>
+    </div>
+    <div class="feature" style="padding: 1.25rem;">
+      <h4 style="font-size: 0.85rem;">Learnings Capture</h4>
+      <p style="font-size: 0.8rem;">Every session produces insights. Auto-captured on stop, queued for triage. The raw material the feedback loop runs on.</p>
+    </div>
+    <div class="feature" style="padding: 1.25rem;">
+      <h4 style="font-size: 0.85rem;">Overnight Reviews</h4>
+      <p style="font-size: 0.8rem;">Learning consolidation, memory audits, cross-session deduplication. The system does its homework while you sleep.</p>
+    </div>
+    <div class="feature" style="padding: 1.25rem;">
+      <h4 style="font-size: 0.85rem;">30+ Skills</h4>
+      <p style="font-size: 0.8rem;">TDD, code review, security audit, deep research, writing, prompt engineering, job applications, interviews, diagramming — pre-baked and composable.</p>
+    </div>
+    <div class="feature" style="padding: 1.25rem;">
+      <h4 style="font-size: 0.85rem;">Hooks &amp; Lifecycle</h4>
+      <p style="font-size: 0.8rem;">Customizable triggers on session start, stop, tool calls. The nervous system that connects everything without agent coordination overhead.</p>
+    </div>
+  </div>
+
+  <p style="margin-top: 1.5rem; font-size: 0.85rem; color: var(--text-muted);">
+    Each piece works independently. Together, they create a system that
+    remembers, learns, reviews its own work, and gets better every session —
+    with you as the quality gate.
+  </p>
+</section>
+
+<hr class="divider">
+
+<!-- A Day in the Life -->
+<section>
+  <div class="section-label">A Day in the Life</div>
+  <h2>What Tuesday looks like when the human is well-tooled.</h2>
+
+  <div class="workflow">
+    <div class="workflow-item">
+      <div class="workflow-time">7:30 AM &middot; Phone</div>
+      <h4>Morning feed</h4>
+      <p>Not transcripts — outcomes. "API refactor: 12 files, tests pass." "Tax research: report ready." "Migration: needs your decision on rename vs alias." You know the state of everything without opening a single session.</p>
+    </div>
+
+    <div class="workflow-item">
+      <div class="workflow-time">7:35 AM &middot; Phone</div>
+      <h4>Triage</h4>
+      <p>12 learnings from last night's agents. Swipe through while waiting for coffee. Approve 8, reject 2, edit 2. Memory updated. 90 seconds. The system just got smarter and you haven't sat down yet.</p>
+    </div>
+
+    <div class="workflow-item">
+      <div class="workflow-time">9:00 AM &middot; Mac</div>
+      <h4>Deep work</h4>
+      <p>Focus view. One session, full screen. The UI strips Claude Code's output to the conversation and the artifacts — no system noise, no hook output, no compaction markers. Terminal aesthetic without the terminal's inability to filter what you see.</p>
+    </div>
+
+    <div class="workflow-item">
+      <div class="workflow-time">2:00 PM &middot; Walking</div>
+      <h4>Voice check-in</h4>
+      <p>Push-to-talk: "What's the status on the API refactor?" Fully local STT/TTS on Apple Silicon — MLX Whisper + Kokoro-82M, ~7GB RAM, zero cloud dependency. Voice answer in 2 seconds. Give a follow-up instruction. Phone back in pocket.</p>
+    </div>
+
+    <div class="workflow-item">
+      <div class="workflow-time">11:00 PM &middot; Asleep</div>
+      <h4>Agents keep working</h4>
+      <p>Nightly learning consolidation. Weekly memory audit. A research agent reading 30 sources. You won't see 30 transcripts tomorrow — you'll see a report with findings and a confidence level. The system decides what's worth surfacing.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- Under the Hood -->
 <section class="wide">
-  <div class="section-label">Where Are You?</div>
-  <h2>The 8 stages of agentic productivity.</h2>
+  <div class="section-label">Under the Hood</div>
+  <h2>Native app. Gateway. Containers.</h2>
   <p>
-    Most people plateau at stage 3 — they have skills and prompts that work well enough.
-    The real unlock starts at stage 5, when the system starts to know you. By stage 6,
-    you're no longer coding — you're managing. That's where I am and where I felt stuck because no tool allowed me to do that efficiently and effectively.
-    That's what multiplai solves.
-  </p>
-
-  <div class="stages-chart">
-    <div class="stages-grid">
-      <div class="stage-col">
-        <div class="stage-bar tier-1" style="height: 30px;"></div>
-        <div class="stage-label">
-          <span class="stage-number">1</span>
-          <span class="stage-name">Prompting</span>
-        </div>
-      </div>
-      <div class="stage-col">
-        <div class="stage-bar tier-1" style="height: 50px;"></div>
-        <div class="stage-label">
-          <span class="stage-number">2</span>
-          <span class="stage-name">Specs & Plans</span>
-        </div>
-      </div>
-      <div class="stage-col">
-        <div class="stage-bar tier-1" style="height: 70px;"></div>
-        <div class="stage-label">
-          <span class="stage-number">3</span>
-          <span class="stage-name">Skills</span>
-        </div>
-      </div>
-      <div class="stage-col">
-        <div class="stage-bar tier-2" style="height: 95px;"></div>
-        <div class="stage-label">
-          <span class="stage-number">4</span>
-          <span class="stage-name">Sub-Agents</span>
-        </div>
-      </div>
-      <div class="stage-col">
-        <div class="stage-bar tier-2" style="height: 120px;"></div>
-        <div class="stage-label">
-          <span class="stage-number">5</span>
-          <span class="stage-name">Memory</span>
-        </div>
-      </div>
-      <div class="stage-col">
-        <div class="stage-bar tier-3" style="height: 160px;"></div>
-        <div class="stage-label">
-          <span class="stage-number">6</span>
-          <span class="stage-name">Multi-Agent</span>
-        </div>
-      </div>
-      <div class="stage-col">
-        <div class="stage-bar tier-3" style="height: 200px;"></div>
-        <div class="stage-label">
-          <span class="stage-number">7</span>
-          <span class="stage-name">Orchestration</span>
-        </div>
-      </div>
-      <div class="stage-col">
-        <div class="stage-bar tier-3" style="height: 240px;"></div>
-        <div class="stage-label">
-          <span class="stage-number">8</span>
-          <span class="stage-name">Self-Adapting</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="tier-brackets">
-      <div class="tier-bracket t1">10% gains</div>
-      <div class="tier-bracket t2">Linear scaling</div>
-      <div class="tier-bracket t3">10x gains</div>
-    </div>
-
-    <div class="stage-callouts">
-      <div class="stage-callout callout-most">
-        <span class="arrow">&larr;</span> Most people are here (stages 2-3)
-      </div>
-      <div class="stage-callout callout-10x">
-        <span class="arrow">&larr;</span> 10x starts here (stage 6)
-      </div>
-      <div class="stage-callout callout-here">
-        <span class="arrow">&larr;</span> This is multiplai (stage 8)
-      </div>
-    </div>
-  </div>
-</section>
-
-<hr class="divider">
-
-<!-- Five Pillars -->
-<section>
-  <div class="section-label">Architecture</div>
-  <h2>Five pillars. All necessary. None optional.</h2>
-  <p>
-    An agentic system that actually works requires five things. Miss any one and the system degrades.
-    These aren't features — they're necessary conditions.
-  </p>
-
-  <div class="pillars">
-    <div class="pillar">
-      <div class="pillar-number">PILLAR 01</div>
-      <h3>Memory</h3>
-      <p>
-        Four distinct types. Personal knowledge (preferences, history, career).
-        Research knowledge (what was investigated and learned). Diary (captain's log of decisions and actions
-        — what you check in the morning to see what happened overnight). Learnings (insights captured
-        for human review). Each serves a different purpose. Each requires different UX.
-      </p>
-    </div>
-
-    <div class="pillar">
-      <div class="pillar-number">PILLAR 02</div>
-      <h3>Deep Research</h3>
-      <p>
-        Not the shallow kind where you decompose a query and fan out searches.
-        Real research has a divergence step (explore broadly), a fact-checking step
-        (verify claims), and a contrarian view step (challenge conclusions).
-        Most "deep research" tools stop at query decomposition. That's not research. That's a search engine.
-      </p>
-    </div>
-
-    <div class="pillar">
-      <div class="pillar-number">PILLAR 03</div>
-      <h3>Isolation</h3>
-      <p>
-        AI does not run on your desktop. Every chat spawns a locked-down container.
-        No privileges, capability drops, socket-only access, agent forwarding. The container
-        is the blast radius boundary. This isn't paranoia — it's production operations thinking
-        from 15 years of systems engineering.
-      </p>
-    </div>
-
-    <div class="pillar">
-      <div class="pillar-number">PILLAR 04</div>
-      <h3>Coordination & Autonomy</h3>
-      <p>
-        Background agents running cron jobs: nightly learning consolidation, weekly memory audits,
-        transcript mining for missed insights. Deterministic workflows written in code — not
-        prompts — that call the Agent SDK only where genuine reasoning is needed. Code orchestrator,
-        not LLM orchestrator. Zero orchestrator tokens.
-      </p>
-    </div>
-
-    <div class="pillar">
-      <div class="pillar-number">PILLAR 05</div>
-      <h3>Human-in-the-Loop</h3>
-      <p>
-        The easier you make it for the human to give feedback, the more effective the system is.
-        This is not a gate. This is a critical component. UX has to be deeply intentional around
-        the atomic units of work: approving learnings, reviewing plans, course-correcting memory.
-        Swipe left to approve. Swipe right to reject. Tap to edit. 150ms. Done.
-      </p>
-    </div>
-
-  </div>
-</section>
-
-<hr class="divider">
-
-<!-- What You Get -->
-<section>
-  <div class="section-label">What This Enables</div>
-  <h2>The daily workflow, reimagined.</h2>
-
-  <div class="problem-block">
-    <span class="problem-tag tag-solution">Morning</span>
-    <p>
-      Open the app. Feed view shows a terse stream of what your agents did overnight.
-      Decisions made, files changed, learnings captured. A diary, not a transcript.
-      You see what happened without opening a single session.
-    </p>
-  </div>
-
-  <div class="problem-block">
-    <span class="problem-tag tag-solution">Triage</span>
-    <p>
-      Switch to triage. 12 learnings from last night. Swipe through them while waiting for coffee.
-      Approve 8, reject 2, edit 2. Each one slides out in 150ms. Memory updated.
-      What used to be a clunky batch process in the terminal is now 90 seconds on your phone.
-    </p>
-  </div>
-
-  <div class="problem-block">
-    <span class="problem-tag tag-solution">Deep Work</span>
-    <p>
-      Focus view. One session. Rendered markdown. No system noise, no hook output,
-      no compaction markers. Just the conversation and the artifacts.
-      Terminal aesthetic, 740px max-width, monospace. The look you want without the container you don't.
-    </p>
-  </div>
-
-  <div class="problem-block">
-    <span class="problem-tag tag-solution">On the Go</span>
-    <p>
-      Away from desk. Phone connects directly to your Mac Mini. Voice-first input — push-to-talk,
-      local STT/TTS, zero cloud dependency for the voice pipeline. Check which agents need attention.
-      Give one a quick voice instruction. Put the phone back in your pocket.
-    </p>
-  </div>
-
-  <div class="problem-block">
-    <span class="problem-tag tag-solution">Proportional Attention</span>
-    <p>
-      A quiet badge accumulates. A buzz only when a decision is needed.
-      Different behavior per device. You're not getting blasted equally —
-      the system understands what matters and tells you proportionally.
-    </p>
-  </div>
-</section>
-
-<hr class="divider">
-
-<!-- Opinionated Choices -->
-<section>
-  <div class="section-label">Opinionated Choices</div>
-  <h2>Every decision is a stance. Here are the stances.</h2>
-
-  <div class="problem-block">
-    <span class="problem-tag tag-opinion">Built on Claude Agent SDK</span>
-    <h3>One agentic system. Full commitment.</h3>
-    <p>
-      Plenty of tools try to be model-agnostic wrappers for everything under the sun.
-      multiplai doesn't. It's built on Claude Code and the Claude Agent SDK — because that's
-      what I work with, and because I've invested heavily in hooks, skills, memory systems,
-      and workflows that are deeply integrated with how Claude Code works. It would be
-      technically possible to abstract that away given the architecture, but none of that
-      harness would port easily. Staying with Claude Code and building on top of it
-      was the only decision that made sense.
-    </p>
-  </div>
-
-  <div class="problem-block">
-    <span class="problem-tag tag-opinion">Native, Not Electron</span>
-    <h3>SwiftUI for Mac + iOS</h3>
-    <p>
-      Everyone builds with Tauri, Electron, or web wrappers. Understandable — it simplifies work,
-      you don't have to learn Swift. But there's always this sluggishness, this latency, this feeling
-      that it doesn't feel right. You do it 100 times and it's so frustrating.
-    </p>
-    <p>
-      The insight: what's wanted is <strong>terminal aesthetic</strong> — monospace, dark, minimal chrome — not
-      a terminal container. SwiftUI delivers both: the aesthetic plus native gestures, animations,
-      and actual 50ms response times. Not a browser pretending to be an app.
-    </p>
-  </div>
-
-  <div class="problem-block">
-    <span class="problem-tag tag-opinion">Code Orchestrator, Not LLM Orchestrator</span>
-    <h3>Start with code. Reach out to the agent.</h3>
-    <p>
-      It's crazy talk to think you can represent a workflow in English and something just executes it.
-      Maybe one day. Not today. So skills are evolving: fat prompts become Python scripts become
-      Agent SDK calls. The LLM does what it's good at — language, reasoning, non-deterministic thinking.
-      Code handles everything else. Zero orchestrator tokens.
-    </p>
-    <div class="opinion">
-      <p>
-        "The multi-agent 15x token cost that people complain about comes from LLM-powered orchestrators.
-        This system avoids that entirely."
-      </p>
-    </div>
-  </div>
-
-  <div class="problem-block">
-    <span class="problem-tag tag-opinion">Local Voice Pipeline</span>
-    <h3>Free speech. Not 11 Labs.</h3>
-    <p>
-      Once management becomes the job, you're way more verbose — explaining, directing, reviewing.
-      Voice becomes primary, not secondary. But 11 Labs is expensive and creates an external dependency.
-    </p>
-    <p>
-      MLX-optimized models on Apple Silicon: Kokoro-82M for text-to-speech, MLX Whisper large-v3-turbo
-      for speech-to-text. With voice cloning. The full pipeline runs free on a Mac Mini M4 Pro
-      with ~7-8GB RAM. Push-to-talk protocol. Walkie-talkie style.
-    </p>
-  </div>
-
-  <div class="problem-block">
-    <span class="problem-tag tag-opinion">OrbStack, Not Docker Desktop</span>
-    <h3>Sub-second container starts.</h3>
-    <p>
-      Every chat spawns a container. At 10 seconds per container (vanilla Docker), that's unworkable.
-      OrbStack does it in under a second. Same Docker API, same containers. Shared Node.js VM
-      across all containers — no reinstall per session. The same .claude/ directory mounted
-      everywhere: same skills, hooks, memory, commands.
-    </p>
-  </div>
-
-  <div class="problem-block">
-    <span class="problem-tag tag-opinion">Context Handoff, Not Compaction</span>
-    <h3>Kill and restart clean. Every time.</h3>
-    <p>
-      Claude Code's built-in compaction at ~93% context fill mixes your checkpoint with its generic summary.
-      After 3+ cycles, continuity degrades. You can add to compaction with hooks, but you can't
-      replace it.
-    </p>
-    <p>
-      The Agent SDK gives full lifecycle control: monitor token usage via StreamEvent,
-      checkpoint at 70% fill, disconnect, delete session, restart fresh with only your
-      checkpoint as context. Clean slate every time. No mixed signals. No degradation.
-    </p>
-  </div>
-
-  <div class="problem-block">
-    <span class="problem-tag tag-opinion">Unix Philosophy</span>
-    <h3>Small tools. Pipes. Composition.</h3>
-    <p>
-      15 years as an SRE / systems engineer. That's the frame of reference. It's why a command-line
-      process is more interesting than any web UI — if it's a process, you can pipe it, containerize it,
-      compose it, drive it unattended. The file system is the integration layer.
-      The gateway pattern, WebSocket communication, file-based persistence — it's all Unix thinking.
-    </p>
-  </div>
-</section>
-
-<hr class="divider">
-
-<!-- Architecture -->
-<section class="wide">
-  <div class="section-label">How It Works</div>
-  <h2>Client-server with containers.</h2>
-  <p>
-    The agent runs inside the container. The UI is just a window peering in.
-    WebSocket between them. The containers can run anywhere — as long as they register
-    with the gateway, the UI can monitor and manage them all.
+    Each agent runs in its own Docker container. The UI peers in through WebSocket.
+    Skills, hooks, memory, and commands are mounted into every container — same
+    environment everywhere, isolated execution. The human never touches the infrastructure.
   </p>
 
   <div class="arch-flow">
@@ -988,126 +867,119 @@
       WebSocket
     </div>
     <div class="arch-node">
-      <h4>Agent Server</h4>
-      <p>Docker container<br>Claude SDK + JSONL</p>
+      <h4>Agent Container</h4>
+      <p>Docker + Claude SDK<br>Isolated, sub-second start</p>
     </div>
   </div>
 
   <div class="features">
     <div class="feature">
-      <h4>Feed View</h4>
-      <p>Cross-session activity stream. All chats, learnings, files, system events in one chronological view. Filter chips. Zoom out to see what needs attention, zoom back in.</p>
+      <h4>Context Handoff</h4>
+      <p>Claude Code compaction at ~93% fill mixes your checkpoint with its summary. After 3 cycles, continuity degrades. multiplai monitors via StreamEvent, checkpoints at 70%, kills session, restarts clean. Your context only. No degradation.</p>
     </div>
     <div class="feature">
-      <h4>Triage View</h4>
-      <p>Dedicated learnings workflow. Swipe or use keyboard shortcuts (J/K/A/R/E). Confidence scoring with color indicators. 150ms slide-out. 5-second undo toast.</p>
+      <h4>Local Voice</h4>
+      <p>Fully local pipeline on Apple Silicon. Modular: swap STT, TTS, or LLM brain independently. Push-to-talk protocol. Voice cloning. No cloud dependency. When managing becomes the job, voice becomes primary.</p>
     </div>
     <div class="feature">
-      <h4>Focus View</h4>
-      <p>Full-screen single session. 740px max-width. Rendered markdown. Designed for consumption and deep work, not just input.</p>
-    </div>
-    <div class="feature">
-      <h4>Switchboard</h4>
-      <p>Slide-out drawer with all sessions. Status dots, activity phrases, relative timestamps. iPhone app-switcher metaphor. See where everybody is at.</p>
+      <h4>Code Orchestrator</h4>
+      <p>Deterministic workflows in Python, not prompts. Skills evolve: fat prompt &rarr; script &rarr; Agent SDK call. LLMs handle reasoning. Code handles everything else. Zero orchestrator tokens. The multi-agent 15x token cost comes from LLM orchestrators — this avoids that entirely.</p>
     </div>
     <div class="feature">
       <h4>Keyboard-First</h4>
-      <p>vim-inspired navigation. 50ms response target. J/K vertical, H/L horizontal, Enter expand, Escape collapse. Command palette that makes itself obsolete.</p>
-    </div>
-    <div class="feature">
-      <h4>Background Agents</h4>
-      <p>Cron-based autonomous work: nightly learning consolidation, weekly memory audits, transcript mining. Morning feed shows what happened overnight.</p>
+      <p>vim-inspired navigation. J/K/H/L, Enter/Escape. 50ms response target. The same interactions work with gestures on iOS and keyboard on Mac. Command palette that makes itself obsolete.</p>
     </div>
   </div>
 </section>
 
 <hr class="divider">
 
-<!-- Journey -->
+<!-- Stances -->
 <section>
-  <div class="section-label">The Journey</div>
-  <h2>How we got here.</h2>
-  <p>
-    None of this was planned. Each piece emerged from a specific frustration,
-    and each solution created the conditions for the next problem to surface.
-  </p>
+  <div class="section-label">Opinionated By Design</div>
+  <h2>Every decision is a stance.</h2>
 
-  <div class="timeline">
-    <div class="timeline-item">
-      <h4>Memory</h4>
-      <p>Frustrated by repeating the same things every session. Built personal memory files — preferences, history, career data. But they went stale fast, and maintaining them was a burden.</p>
-      <div class="result">Problem: memory existed but nobody read it</div>
+  <div class="stances">
+    <div class="stance">
+      <div class="stance-label">Claude-native</div>
+      <p class="stance-desc">Built on Claude Code + Agent SDK. Not model-agnostic. Deep integration with hooks, skills, memory — none of which ports to other models. Full commitment, not a wrapper.</p>
     </div>
-
-    <div class="timeline-item">
-      <h4>Learnings + Human Review</h4>
-      <p>Automated capture of insights from conversations. But auto-adding to memory without review produced janky results. First moment it became clear: the human in the loop isn't a gate — it's a quality control mechanism.</p>
-      <div class="result">Learnings capture + human approval workflow</div>
+    <div class="stance">
+      <div class="stance-label">Native, not Electron</div>
+      <p class="stance-desc">The UI's job is information compression — trimming agent output to decision-grade signal. That requires full control over rendering, gestures, and layout. Tried Textual TUI (342 tests, rendering artifacts). Evaluated Ratatui, BubbleTea. Terminal aesthetic — yes. Terminal container — no.</p>
     </div>
-
-    <div class="timeline-item">
-      <h4>Memory Retrieval</h4>
-      <p>Had memories but they weren't being loaded when relevant. Tried file indexes with descriptions — loaded poorly. Eventually hooked into prompt-submit to inject context at the moment it matters. Captain's log added for decision history.</p>
-      <div class="result">Hook-based retrieval + session diary</div>
+    <div class="stance">
+      <div class="stance-label">Code > Prompts</div>
+      <p class="stance-desc">Skills evolve: fat prompt &rarr; Python script &rarr; Agent SDK call. This isn't theoretical — skills in this system have gone through exactly this lifecycle. LLMs reason. Code orchestrates.</p>
     </div>
-
-    <div class="timeline-item">
-      <h4>Deep Research</h4>
-      <p>AI would make mistakes from ignorance. Correcting mistakes became learnings, but that's painfully slow. Built research capability — 14 iterations — so the system could investigate before acting, not just learn from failures.</p>
-      <div class="result">Usable for both deep research jobs and quick verification</div>
+    <div class="stance">
+      <div class="stance-label">Unix philosophy</div>
+      <p class="stance-desc">If it's a process, you can pipe it, containerize it, compose it, run it unattended. Gateway pattern, WebSocket proxy, file-based persistence. The file system is the integration layer. 15 years of SRE thinking.</p>
     </div>
-
-    <div class="timeline-item">
-      <h4>Containerization</h4>
-      <p>Permission fatigue was killing velocity. Wanted YOLO mode but couldn't trust the sandbox — literally caught Claude evading its own sandbox to comply with a command. Moved to Docker. Full isolation, outside Claude's control.</p>
-      <div class="result">YOLO mode unlocked. Floodgates opened.</div>
-    </div>
-
-    <div class="timeline-item">
-      <h4>Human-in-the-Loop, Redesigned</h4>
-      <p>Without per-command approvals, review gates became critical. Where reports land, how they're committed, what gets surfaced — all had to be smooth enough that reviewing a batch of agent work felt effortless, not like a chore.</p>
-      <div class="result">Structured review gates with triage UX</div>
-    </div>
-
-    <div class="timeline-item">
-      <h4>Autonomous TDD</h4>
-      <p>Wanted fully autonomous coding. But autonomous coding needs the human most at the beginning — specs, requirements, uncovering the real goal. Built spec-driven development with autonomous TDD loops inside containers.</p>
-      <div class="result">Spec → plan → approve → autonomous build</div>
-    </div>
-
-    <div class="timeline-item">
-      <h4>Scaling: tmux, SSH, TUI</h4>
-      <p>Had all the pieces — memory, research, containers, TDD. Wanted 10x parallelism. Tried tmux (couldn't tell which window needed attention), SSH from phone (output too verbose), Textual TUI (342 tests, but rendering artifacts and no gestures).</p>
-      <div class="result">Abandoned: none worked for managing at scale</div>
-    </div>
-
-    <div class="timeline-item">
-      <h4>Web Prototypes</h4>
-      <p>Fast iteration on interaction patterns. Validated the gateway/WebSocket/container architecture. But committing to a browser as the primary interface felt wrong.</p>
-      <div class="result">Kept as test harness, not production UI</div>
-    </div>
-
-    <div class="timeline-item active">
-      <h4>Native SwiftUI + Container Gateway</h4>
-      <p>Terminal aesthetic without the terminal container. Native gestures, 50ms response, proper mobile companion. Voice as first-class citizen. Each agent in its own container, UI peering in through WebSocket.</p>
-      <div class="result">Current architecture</div>
+    <div class="stance">
+      <div class="stance-label">Kill > Compact</div>
+      <p class="stance-desc">Claude Code compaction at ~93% fill mixes your checkpoint with its generic summary. Agent SDK gives full lifecycle control: monitor via StreamEvent, checkpoint at 70%, disconnect, delete, restart fresh. Your context only.</p>
     </div>
   </div>
 </section>
 
+<hr class="divider">
+
+<!-- Use Cases -->
+<section>
+  <div class="section-label">Not Just Code</div>
+  <h2>One system. Every domain.</h2>
+
+  <p>
+    The agent is general-purpose. The skills are domain-specific. The memory
+    crosses all of them. That's the point — your tax context informs your
+    financial planning, your research feeds your writing, your career history
+    shapes your applications. A single system that compounds across your
+    entire life, not siloed tools that each start from zero.
+  </p>
+
+  <div class="stances" style="margin-top: 1.5rem;">
+    <div class="stance">
+      <div class="stance-label" style="color: var(--accent);">Software</div>
+      <p class="stance-desc">TDD builds, code review, security audits, refactoring. Agents write code, run tests, iterate — you review outcomes.</p>
+    </div>
+    <div class="stance">
+      <div class="stance-label" style="color: var(--accent);">Research</div>
+      <p class="stance-desc">Deep web research across 20+ sources. Structured synthesis. Confidence-weighted findings. The agent reads 30 articles so you read one report.</p>
+    </div>
+    <div class="stance">
+      <div class="stance-label" style="color: var(--accent);">Writing</div>
+      <p class="stance-desc">Briefs, drafts, editing, LinkedIn posts. Style-guided by your voice profile. The system knows how you write, not how "a professional" writes.</p>
+    </div>
+    <div class="stance">
+      <div class="stance-label" style="color: var(--accent);">Finances</div>
+      <p class="stance-desc">Tax prep, filing steps, cross-border implications. Research-grade analysis, human-approved actions. Nothing gets filed without your sign-off.</p>
+    </div>
+    <div class="stance">
+      <div class="stance-label" style="color: var(--accent);">Career</div>
+      <p class="stance-desc">Tailored applications, interview prep, market research. Draws from career history, voice profile, and the specific role — not a template.</p>
+    </div>
+    <div class="stance">
+      <div class="stance-label" style="color: var(--accent);">Life Admin</div>
+      <p class="stance-desc">Relocation logistics, visa research, vehicle sales, appointment scheduling. The mundane stuff that eats hours and has high stakes for getting details wrong.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
 <!-- CTA -->
 <div class="cta-section">
-  <h2>Extremely opinionated.<br>For the people who get it.</h2>
+  <h2>The tool for when you outgrow one agent.</h2>
   <p>
-    If you run multiple concurrent agents. If you think the human in the loop
-    is a design problem. If you believe workflows should be code, not prompts.
-    If you want terminal aesthetic without terminal constraints.
-    If you think in Unix.
+    You've gone from following along with one session to managing a dozen —
+    across code, research, writing, finances, and life. The agents are capable.
+    What you need isn't a better agent — it's the infrastructure around them.
+    Memory that compounds. Feedback loops that take seconds. Skills that ship
+    ready. A system that gets better every day because you're in the loop,
+    not despite it.
   </p>
-  <p>
-    This is multiplai.
-  </p>
-  <a href="https://github.com/spikelab" class="cta-link">View on GitHub</a>
+  <a href="https://github.com/AgeofIA/multiplai" class="cta-link">View on GitHub</a>
 </div>
 
 </body>
